@@ -3,11 +3,17 @@ package data;
 public class course_info {
 	private int course_id;
 	private String course_name;
-	private int course_period;
+	private int course_periods;
+	private boolean is_major;
+	private oa_time m_time;
+
 	public course_info(int id, String name)
 	{
 		course_id = id;
 		course_name = name;
+		course_periods = 0;
+		is_major = false;
+		m_time = null;
 	}
 	
 	public int get_id()
@@ -20,13 +26,33 @@ public class course_info {
 		return course_name;
 	}
 	
-	public int get_period()
+	public int get_periods()
 	{
-		return course_period;
+		return course_periods;
 	}
 	
-	public void set_period(int period)
+	public boolean is_major()
 	{
-		course_period = period;
+		return is_major;
+	}
+
+	public oa_time get_meet_time()
+	{
+		return m_time;
+	}
+
+	public void set_period(int periods)
+	{
+		course_periods = periods;
+	}
+
+	public void set_major(boolean flag)
+	{
+		is_major = flag;
+	}
+
+	public void set_meet_time(oa_time time)
+	{
+		m_time = time;
 	}
 }
