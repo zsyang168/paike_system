@@ -1,7 +1,7 @@
 package main;
 
 import excel.excel_func;
-import tools.print;
+import common.print;
 
 public class paike_main {
 

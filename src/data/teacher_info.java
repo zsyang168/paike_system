@@ -31,7 +31,7 @@ public class teacher_info {
 		return course_id;
 	}
 
-	public int is_master()
+	public boolean is_master()
 	{
 		return is_master;
 	}

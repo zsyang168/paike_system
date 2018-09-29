@@ -1,5 +1,7 @@
 package data;
 
+import common.oa_time;
+
 public class course_info {
 	private int course_id;
 	private String course_name;

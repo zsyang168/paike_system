@@ -1,3 +1,5 @@
+package data;
+
 public class teaching_info{
 	public int teacher_id;
 	public int class_list[];
