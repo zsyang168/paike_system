@@ -2,7 +2,7 @@ package excel;
 
 public class excel_func {
 
-	public Object[][] get_excel_data_by_name(String file_name, String sheet_name) {
+	public	Object[][] get_excel_data_by_name(String file_name, String sheet_name) {
 		// TODO Auto-generated method stub
 		excel_read test=new excel_read(file_name);
 		Object[][] result=null;
@@ -13,7 +13,7 @@ public class excel_func {
 		return result;
 	}
 
-	public Object[][] get_excel_data_by_index(String file_name, int sheet_index) {
+	public	Object[][] get_excel_data_by_index(String file_name, int sheet_index) {
 		// TODO Auto-generated method stub
 		excel_read test=new excel_read(file_name);
 		Object[][] result=null;

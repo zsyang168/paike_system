@@ -12,4 +12,11 @@ public class print {
 			System.out.println();
 		}
 	}
+	
+	public static void show(int[] data) {
+		for (int i = 0; i < data.length; i++) {
+						System.out.print(data[i] + " ");
+		}
+		System.out.println();
+	}
 }
