@@ -77,7 +77,7 @@ public class excel_read {
 			Row row = null;
 			// 获取行数
 			int lastRowNum = sheet.getLastRowNum();
-			data = new String[lastRowNum + 1][];// 初始化表格数据存放数组
+			data = new Object[lastRowNum + 1][];// 初始化表格数据存放数组
 			// 循环读取
 			for (int i = 0; i <= lastRowNum; i++) {
 				row = sheet.getRow(i);
@@ -86,7 +86,7 @@ public class excel_read {
 					int ColNum = row.getLastCellNum();
 					if (0 > ColNum)
 						break;
-					data[i] = new String[ColNum];
+					data[i] = new Object[ColNum];
 					// 获取每一列的值
 					for (int j = 0; j < ColNum; j++) {
 						Cell cell = row.getCell(j);
@@ -128,14 +128,19 @@ public class excel_read {
 	 */
 	@SuppressWarnings("deprecation")
 	private Object getCellValue(Cell cell) {
-		Object result = "";
+		Object result = null;
 		if (cell != null) {
 			switch (cell.getCellType()) {
 			case Cell.CELL_TYPE_STRING:
 				result = cell.getStringCellValue();
 				break;
 			case Cell.CELL_TYPE_NUMERIC:
-				result = cell.getNumericCellValue();
+				double doubleVal = cell.getNumericCellValue();
+				int intVal = (int) Math.round(doubleVal);  
+			    if(Double.parseDouble(intVal + ".0") == doubleVal)  
+			    	result = intVal;  
+			    else  
+			    	result = doubleVal;
 				break;
 			case Cell.CELL_TYPE_BOOLEAN:
 				result = cell.getBooleanCellValue();

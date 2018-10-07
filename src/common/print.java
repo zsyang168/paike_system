@@ -1,6 +1,9 @@
 package common;
 
-import data.teacher_info;
+import java.util.List;
+
+import entity.Teacher;
+import entity.Teaching;
 
 public class print {
 	public static void show(Object[][] data) {
@@ -22,9 +25,18 @@ public class print {
 		System.out.println();
 	}
 	
-	public static void show(teacher_info[] data) {
+	public static void show(Teacher[] data) {
 		for (int i = 0; i < data.length; i++) {
-						System.out.println(data[i].get_id() + " " +data[i].get_name() +" "+data[i].is_master() +" " +data[i].get_course_id());
+						System.out.println(data[i].get_id() + " " +data[i].get_name() +" "+data[i].is_master());
+		}
+		System.out.println();
+	}
+	
+	public static void show(List<Teaching> data) {
+		for (Teaching ti :data) {
+						System.out.println(ti.get_teacher().get_id());
+						show(ti.get_class_list());
+						show(ti.get_time_list());
 		}
 		System.out.println();
 	}
