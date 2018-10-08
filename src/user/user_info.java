@@ -22,6 +22,8 @@ public class user_info {
 	public static oa_time Class_Meeting_Time = new oa_time(1, 8, 8);// 班会时间，设为-1时没有班会
 	public static int ComputerRoomNum = 1;// 杋房数，决定同一时间可上机的班级数
 	public static int PE_Time[][];
+
+	public static String morning_reading={"语文","英语"};
 	
 	public user_info() {
 		// TODO Auto-generated constructor stub

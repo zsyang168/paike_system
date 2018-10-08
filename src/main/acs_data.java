@@ -34,7 +34,7 @@ public class acs_data {
 		excel_func test = new excel_func();
 		Object[][] t_data = test.get_excel_data_by_name(user_info.t_file_path, "Sheet1");
 		Object[][] c_data = test.get_excel_data_by_name(user_info.c_file_path, "Sheet1");
-		
+
 		act_range t_range = get_range(t_data);
 		act_range c_range = get_range(c_data);
 
@@ -44,9 +44,6 @@ public class acs_data {
 
 		course_init(c_range, c_data);
 
-		teaching_init(t_range, t_data);
-
-		
 		System.out.println(class_num + " " + course_num + " " + teacher_num);
 		System.out.println(teacher_num);
 		//print.show(teaching_list);
@@ -94,6 +91,7 @@ public class acs_data {
 
 			}
 		}
+
 		teacher_num = _name_list.size();
 		teacher_list = new Teacher[teacher_num];
 		for (int i = 0; i < teacher_num; i++) {
@@ -105,20 +103,26 @@ public class acs_data {
 				teacher_list[i].set_master(true);
 
 		}
+
+		teaching_init(t_range, t_data);
 	}
 
-	private void teaching_init(act_range range, Object[][] data) {
-		/*
+	private void teaching_init(act_range range, LinkedList<Integer> _course_list, Object[][] data) {
+
 		LinkedList<Integer> _class_list = new LinkedList<Integer>();
 		teaching_list = new LinkedList<Teaching>();
 		int t_list[] = new int[user_info.TotalTime];
 		int length = -1;
-		int ppd = user_info.Courses_OF_DAY;
+		int _course_id = -1;
+		String t_name = null;
+		Course _course = null;
+
 		for (int i = 0; i < teacher_num; i++) {
 			_class_list.clear();
-			_course_id = teacher_list[i].get_course_id();
+			_course_id = _course_list.get(i);
+
 			for (int j = 0; j < class_num; j++) {
-				String t_name = t_data[start_line + 1 + j][first_course_column + _course_id];
+				t_name = t_data[ 2 + j ][_course_id];
 				if (t_name.equals(teacher_list[i].get_name())) {
 					_class_list.add(j);
 				}
@@ -142,12 +146,20 @@ public class acs_data {
 					t_list[b_time[j]] = 0;
 			}
 
-			int c_m_time[] = user_info.Class_Meeting_Time.get_time_list(ppd);
-			for (int j = 0; j < c_m_time.length; j++)
-				t_list[c_m_time[j]] = 0;
+			t_list[15] = 0;
+
+			for (int i = 0; i < course_list.length; i++){
+					if(data[1][_course_id].equals(course_list[i].get_name()){
+							_course = course_list[i];
+							break;
+					}
+			}
+
+			Teaching temp = new Teaching(teacher_list[i], _course, c_list, t_list);
+			teaching_list.add(temp);
 
 		}
-		*/
+
 	}
 
 	private act_range get_range(Object data[][]) {
