@@ -65,6 +65,8 @@ public class Course {
 			course_periods = (int) data[4];
 			if (data[5] != null)
 				prepare_time = get_time_list(String.valueOf(data[5]));
+			else
+				prepare_time = new int[0];
 			
 		}catch(Exception e)
 		{
@@ -81,14 +83,15 @@ public class Course {
 		if (out.length != 3)
 			return null;
 		
-		int day = Integer.parseInt(out[0]) - 1;
-		int st = Integer.parseInt(out[1]) - 1;
-		int et = Integer.parseInt(out[2]) - 1;
+		int day = Integer.parseInt(out[0]);
+		int st = Integer.parseInt(out[1]);
+		int et = Integer.parseInt(out[2]);
+		
 		int length = et - st +1;
-		int result[] = new int[length];
+		int result[] = new int[length+1];
 
-		for(int i=0;i<length;i++)
-			result[i] = day*8 + et + i;
+		for(int i=1;i<=length;i++)
+			result[i] = (day-1)*8 + st + i -1;
 
 		return result;
 	}

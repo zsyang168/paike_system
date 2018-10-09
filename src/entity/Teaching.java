@@ -12,8 +12,8 @@ public class Teaching implements Comparable{
 	{
 		teacher = t;
 		course = c;
-		class_list = c_list;
-		time_list = t_list;
+		class_list = c_list.clone();
+		time_list = t_list.clone();
 		priority = 0;
 	}
 	
