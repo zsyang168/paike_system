@@ -27,7 +27,6 @@ public class acs_data {
 
 	public acs_data() {
 		// TODO Auto-generated constructor stub
-		new user_data();
 		data_init();
 	}
 
@@ -112,7 +111,7 @@ public class acs_data {
 
 		LinkedList<Integer> _class_list = new LinkedList<Integer>();
 		teaching_list = new LinkedList<Teaching>();
-		int t_list[] = new int[user_data.TotalTime+1];
+		int t_list[] = new int[user_data.TOTAL_PERIODS+1];
 		int length = -1;
 		int _course_id = -1;
 		String t_name = null;
@@ -205,6 +204,40 @@ public class acs_data {
 		return result;
 	}
 
+	public int get_teacher_num()
+	{
+		return teacher_num;
+	}
+	
+	public int get_class_num()
+	{
+		return class_num;
+	}
+	
+	public int get_course_num()
+	{
+		return course_num;
+	}
+
+	public Class[] get_class_list()
+	{
+		return class_list;
+	}
+	
+	public Course[] get_course_list()
+	{
+		return course_list;
+	}
+	
+	public Teacher[] get_teacher_list()
+	{
+		return teacher_list;
+	}
+
+	public List<Teaching> get_teaching_list()
+	{
+		return teaching_list;
+	}
 	public class act_range {
 		public int x1;
 		public int x2;
