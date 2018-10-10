@@ -3,7 +3,6 @@ package main;
 import java.util.LinkedList;
 import java.util.List;
 
-import common.print;
 import common.user_data;
 
 import entity.Class;
@@ -44,9 +43,6 @@ public class acs_data {
 	
 		teacher_init(t_range, t_data);
 
-		System.out.println(class_num + " " + course_num + " " + teacher_num);
-		System.out.println(teacher_num);
-		print.show(teaching_list,-1);
 	}
 
 	private void class_init(act_range range, Object[][] data) {

@@ -26,6 +26,12 @@ public class print {
 		System.out.println();
 	}
 	
+	public static void show(double[] data) {
+		for (int i = 0; i < data.length; i++) {
+						System.out.print(data[i] + " ");
+		}
+		System.out.println();
+	}
 	public static void show(Teacher[] data) {
 		for (int i = 0; i < data.length; i++) {
 						System.out.println(data[i].get_id() + " " +data[i].get_name() +" "+data[i].is_master());
