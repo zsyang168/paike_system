@@ -109,25 +109,28 @@ public class acs_run {
 		{
 			class_available_periods[i] = get_class_available_periods(i, period_arrangment, time_list, is_computer_course);
 			class_needed_periods[i] = periods - class_arrangment_count[i];
-			
-			if (class_available_periods[i] == 0 && class_needed_periods[i] !=0)
+
+			if (class_available_periods[i] == 0)
 			{
 				priorities[i] = class_available_periods[i];
 				continue;
 			}
-			
+
 			priorities[i] = (double)(class_needed_periods[i])/(double)(class_available_periods[i]);
 
 		}
-		
+
 		int teacher_available_periods = get_teacher_available_periods(period_arrangment, time_list, is_computer_course);
 		int teacher_needed_periods = 0;
 		for ( int i = 1; i <= cl_num; i ++)
 			teacher_needed_periods += class_arrangment_count[i];
 		
 		teacher_needed_periods = periods * cl_num - teacher_needed_periods;
-		
-		priorities[cl_num + 1] = (double)(teacher_needed_periods)/(double)(teacher_available_periods);
+	
+		if(teacher_available_periods == 0)
+			priorities[cl_num + 1] = teacher_needed_periods;
+		else
+			priorities[cl_num + 1] = (double)(teacher_needed_periods)/(double)(teacher_available_periods);
 		
 	    return priorities;
 	}
