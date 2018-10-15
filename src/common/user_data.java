@@ -12,7 +12,7 @@ public class user_data {
 	public static int TOTAL_PERIODS;// 一周上课节数
 	public static int NUM_OF_COMPUTERROOM;// 杋房数，决定同一时间可上机的班级数
 	
-	public static String morning_reading[]={"语文","英语","语文","英语","班会"};
+	public static String morning_reading[]={"","语文","英语","语文","英语","班会"};
 	
 	public user_data() {
 		// TODO Auto-generated constructor stub

@@ -53,7 +53,7 @@ public class Teaching implements Comparable{
 		if (this.priority > o.priority) {
 			return -1;
 		} else if (o.priority == this.priority) {
-			if (o.course.get_periods() > this.course.get_periods())
+			if (o.course.get_periods() < this.course.get_periods())
 				return  -1;
 			else if(o.course.get_periods() == this.course.get_periods())
 				return 0;
