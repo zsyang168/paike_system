@@ -21,6 +21,7 @@ public class acs_data {
 	private Class[] class_list;
 	private Course[] course_list;
 	private Teacher[] teacher_list;
+	private String master_list[];
 
 	private List<Teaching> teaching_list;// 教师类数据
 
@@ -71,13 +72,13 @@ public class acs_data {
 	}
 
 	private void teacher_init(act_range range, Object[][] data) {
-		LinkedList<String> master_list = new LinkedList<String>();
+		LinkedList<String> _master_list = new LinkedList<String>();
 		LinkedList<String> _name_list = new LinkedList<String>();
 		LinkedList<Integer> _course_list = new LinkedList<Integer>();
 		String teacher_name = null;
 
 		for (int i = 1; i <= class_num; i++) {
-			master_list.add(String.valueOf(data[range.y1 + i][1]));
+			_master_list.add(String.valueOf(data[range.y1 + i][1]));
 			for (int j = 4; j < range.x2; j++) {
 				teacher_name = String.valueOf(data[range.y1 + i][j]);
 				if (!_name_list.contains(teacher_name)) {
@@ -92,13 +93,17 @@ public class acs_data {
 		teacher_list = new Teacher[teacher_num+1];
 		for (int i = 1; i <=teacher_num; i++) {
 			teacher_name = _name_list.get(i-1);
-	
+
 			teacher_list[i] = new Teacher(i, teacher_name);
 
-			if (master_list.contains(teacher_name))
+			if (_master_list.contains(teacher_name))
 				teacher_list[i].set_master(true);
 
 		}
+
+		master_list = new String[_master_list.size() + 1];
+		for( int i=1; i <= _master_list.size(); i++)
+			master_lsit = _master_list.get(i-1);
 
 		teaching_init(range, _course_list, data);
 	}
@@ -228,6 +233,11 @@ public class acs_data {
 	public Teacher[] get_teacher_list()
 	{
 		return teacher_list;
+	}
+
+	public String[]  get_master_list()
+	{
+		return master_list;
 	}
 
 	public List<Teaching> get_teaching_list()
