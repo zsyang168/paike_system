@@ -24,9 +24,9 @@ public class Teacher {
 		return teacher_name;
 	}
 
-	public boolean is_master()
+	public int is_head()
 	{
-		return is_master;
+		return is_head;
 	}
 
 	public int[] get_bt()

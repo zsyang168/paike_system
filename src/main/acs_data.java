@@ -24,6 +24,8 @@ public class acs_data {
 	protected Teacher[] teacher_list;
 
 	protected List<Teaching> teaching_list;// 教师类数据
+	protected List<Teaching> pri_list;// 优先教师类数据
+	protected List<Teaching> nor_list;// 普通教师类数据
 
 	protected int morning_reading[];// 早读信息
 	protected int days;// 天数
@@ -85,9 +87,12 @@ public class acs_data {
 		//进度相关
 		total_steps = get_total_steps();
 		steps = 0;
+		//教学数据分类
+		teaching_classify_init();
 
 	}
 
+	//初始化班级信息
 	private void class_init(act_range range, Object[][] data) {
 		String class_name = null;
 		String class_type = null;
@@ -100,7 +105,8 @@ public class acs_data {
 			class_list[i] = new Class(i, class_name, class_type);
 		}
 	}
-
+	
+	//初始化课程信息
 	private void course_init(act_range range, Object[][] data) {
 		course_num = range.y2 - range.y1;
 		course_list = new Course[course_num + 1];
@@ -112,7 +118,8 @@ public class acs_data {
 
 		}
 	}
-
+	
+	//初始化教师信息
 	private void teacher_init(act_range range, Object[][] data) {
 		LinkedList<String> _master_list = new LinkedList<String>();
 		LinkedList<String> _name_list = new LinkedList<String>();
@@ -152,6 +159,7 @@ public class acs_data {
 		teaching_init(range, _course_list, data);
 	}
 
+	//初始化教学数据
 	private void teaching_init(act_range range, LinkedList<Integer> _course_list, Object[][] data) {
 
 		LinkedList<Integer> _class_list = new LinkedList<Integer>();
@@ -195,7 +203,7 @@ public class acs_data {
 					t_list[m_time[j]] = 0;
 			}
 
-			int b_time[] = teacher_list[i].get_busy_time();
+			int b_time[] = teacher_list[i].get_bt();
 			if (b_time != null) {
 				for (int j = 1; j < b_time.length; j++)
 					t_list[b_time[j]] = 0;
@@ -209,11 +217,39 @@ public class acs_data {
 		}
 
 	}
-
+	
+	//教学数据分类
+	private void teaching_classify_init()
+	{
+		pri_list = new LinkedList<Teaching>();
+		nor_list = new LinkedList<Teaching>();
+		
+		int course_num = -1;
+		boolean flag = false;
+		for (Teaching tl :teaching_list)
+		{
+			flag = false;
+			course_num = tl.get_course().get_no();
+			for(int i = 1; i < days; i ++)
+			{
+				if (course_num == morning_reading[i])
+				{
+					pri_list.add(tl);
+					flag= true;
+					break;
+				}
+			}
+			
+			if(!flag)
+				nor_list.add(tl);
+		}
+	}
+	
+	//初始化每天课程安排课时限制
 	private void per_limit_init()
 	{
-		max_per = new int[course_num];
-		min_oer = new int[course_num];
+		max_per = new int[course_num + 1];
+		min_per = new int[course_num + 1];
 		int periods = 0;
 
 		for(int i=1;i <= course_num; i ++)
@@ -232,23 +268,28 @@ public class acs_data {
 			}
 		}
 	}
-
+	
+	//获取早读信息，将早读转化为对应number号
 	private int[] get_morning_reading_info()
 	{
-		int res[] = new int[days];
+		int res[] = new int[days + 1];
 		for(int i = 1;i <= days; i ++){
-			res[i] = get_morning_reading_info(user_data.morning_reading[i]);
+			res[i] = get_course_number(user_data.morning_reading[i-1]);
 		}
+		return res;
 
 	}
-
+	
+	//由获取课程名获取课程number
 	private int get_course_number(String name)
 	{
 		for(int i= 1;i <= course_num; i ++)
-			if(course_list[i].get_name().equal(name))
+			if(course_list[i].get_name().equals(name))
 				return i;
 		return 0;
 	}
+	
+	//获取总步数，即要安排的总的课时数
 	private int get_total_steps()
 	{
 		int count = 0;
@@ -262,7 +303,7 @@ public class acs_data {
 	/**
 	 更新教学安排优先级，按优先级从高到低排序*/
 	@SuppressWarnings("unchecked")
-	protected void priority_update()
+	protected void priority_update(List<Teaching> teaching_list)
 	{
 		double priority = 0;
 		for (Teaching t:teaching_list)

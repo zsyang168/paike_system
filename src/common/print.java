@@ -34,7 +34,7 @@ public class print {
 	}
 	public static void show(Teacher[] data) {
 		for (int i = 0; i < data.length; i++) {
-						System.out.println(data[i].get_id() + " " +data[i].get_name() +" "+data[i].is_master());
+						System.out.println(data[i].get_id() + " " +data[i].get_name() +" "+data[i].is_head());
 		}
 		System.out.println();
 	}
@@ -48,7 +48,7 @@ public class print {
 	public static void show(List<Teaching> data,int count) {
 		int i=0;
 		for (Teaching ti :data) {
-						System.out.println(ti.get_teacher().get_name() +" " +ti.get_course().get_name()+" "+ti.get_priority());
+						System.out.println(ti.get_teacher().get_name() +" "+ti.get_teacher().is_head() +" " +ti.get_course().get_name()+" "+ti.get_priority());
 						show(ti.get_class_list());
 						show(ti.get_time_list());
 						

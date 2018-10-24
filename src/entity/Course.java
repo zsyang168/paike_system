@@ -2,7 +2,7 @@ package entity;
 
 public class Course {
 	private int course_id;
-	private int couese_no;
+	private int course_no;
 	private String c_grade;
 	private String course_name;
 	private String short_name;
@@ -12,7 +12,7 @@ public class Course {
 	public Course(int no)
 	{
 		course_id = 0;
-		course_no = i;
+		course_no = no;
 		c_grade = null;
 		course_name = null;
 		short_name = null;
