@@ -22,11 +22,10 @@ public class acs_data {
 	protected Class[] class_list;
 	protected Course[] course_list;
 	protected Teacher[] teacher_list;
-	protected String master_list[];
 
 	protected List<Teaching> teaching_list;// 教师类数据
 
-	protected String morning_reading[];// 早读信息
+	protected int morning_reading[];// 早读信息
 	protected int days;// 天数
 	protected int am_periods;// 上午课时
 	protected int pm_periods;// 下午课时
@@ -39,9 +38,11 @@ public class acs_data {
 	protected int class_course_arrangment[][][];//班级每天课程安排记录
 	protected int teacher_arangment[][];//教师每天教学安排记录
 
+	protected int max_per[]; //课程每天每班最大安排量
+	protected int min_per[]; //课程每天每班最小安排量
 	protected int total_steps; //总安排量
 	protected int steps;//目前安排数
-	
+
 	public acs_data() {
 		// TODO Auto-generated constructor stub
 		new user_data();
@@ -56,10 +57,10 @@ public class acs_data {
 		//获取表格有效数据区域
 		act_range t_range = get_range(t_data);
 		act_range c_range = get_range(c_data);
-		
+
 		//初始化班级数据
 		class_init(t_range, t_data);
-		
+
 		//初始化课程信息
 		course_init(c_range, c_data);
 
@@ -67,24 +68,24 @@ public class acs_data {
 		teacher_init(t_range, t_data);
 
 		// 获取用户维护的用户数据
-		morning_reading = user_data.morning_reading;
 		days = user_data.DAYS_OF_WEEK;
+		morning_reading = get_morning_reading_info();
 		am_periods = user_data.PERIODS_OF_AM;
 		pm_periods = user_data.PERIODS_OF_PM;
 		day_periods = user_data.PERIODS_OF_DAY;
 		total_periods = user_data.TOTAL_PERIODS;
 		computer_room_num = user_data.NUM_OF_COMPUTERROOM;
-		
+
 		// 初始化课表相关数据
 		timetable = new int[class_num + 1][total_periods + 1];
 		computer_room_used = new int[total_periods + 1];
 		class_course_arrangment = new int[class_num + 1][course_num + 1][days + 1];
 		teacher_arangment = new int[teacher_num + 1][days + 1];
-		
+		per_limit_init();
 		//进度相关
 		total_steps = get_total_steps();
 		steps = 0;
-		
+
 	}
 
 	private void class_init(act_range range, Object[][] data) {
@@ -105,7 +106,7 @@ public class acs_data {
 		course_list = new Course[course_num + 1];
 
 		for (int i = 1; i <= course_num; i++) {
-			course_list[i] = new Course();
+			course_list[i] = new Course(i);
 			if (course_list[i].init(data[i]) != 0)
 				System.out.println("course " + i + " init failed!");
 
@@ -117,7 +118,7 @@ public class acs_data {
 		LinkedList<String> _name_list = new LinkedList<String>();
 		LinkedList<Integer> _course_list = new LinkedList<Integer>();
 		String teacher_name = null;
-
+		int index = -1;
 		for (int i = 1; i <= class_num; i++) {
 			_master_list.add(String.valueOf(data[range.y1 + i][1]));
 			for (int j = 4; j < range.x2; j++) {
@@ -138,13 +139,15 @@ public class acs_data {
 			teacher_list[i] = new Teacher(i, teacher_name);
 
 			if (_master_list.contains(teacher_name))
-				teacher_list[i].set_master(true);
+			{
+				index = _master_list.indexOf(teacher_name);
+				if(index != -1)
+					teacher_list[i].set_head(index);
+				else
+					System.out.println("get head teacher info failed!");
+			}
 
 		}
-
-		master_list = new String[_master_list.size() + 1];
-		for (int i = 1; i <= _master_list.size(); i++)
-			master_list[i] = _master_list.get(i - 1);
 
 		teaching_init(range, _course_list, data);
 	}
@@ -207,16 +210,55 @@ public class acs_data {
 
 	}
 
+	private void per_limit_init()
+	{
+		max_per = new int[course_num];
+		min_oer = new int[course_num];
+		int periods = 0;
+
+		for(int i=1;i <= course_num; i ++)
+		{
+			periods = course_list[i].get_periods();
+
+			if(periods >= days)
+			{
+				min_per[i] = periods / days;
+				max_per[i] = periods / days + 1;
+			}
+			else
+			{
+				min_per[i] = 0;
+				max_per[i] = 1;
+			}
+		}
+	}
+
+	private int[] get_morning_reading_info()
+	{
+		int res[] = new int[days];
+		for(int i = 1;i <= days; i ++){
+			res[i] = get_morning_reading_info(user_data.morning_reading[i]);
+		}
+
+	}
+
+	private int get_course_number(String name)
+	{
+		for(int i= 1;i <= course_num; i ++)
+			if(course_list[i].get_name().equal(name))
+				return i;
+		return 0;
+	}
 	private int get_total_steps()
 	{
 		int count = 0;
 		for (int i = 1; i <= course_num; i++)
 			count += course_list[i].get_periods();
-		
+
 		count = count * class_num;
 		return count;
 	}
-	
+
 	/**
 	 更新教学安排优先级，按优先级从高到低排序*/
 	@SuppressWarnings("unchecked")

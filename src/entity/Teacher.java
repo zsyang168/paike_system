@@ -3,14 +3,14 @@ package entity;
 public class Teacher {
 	private int teacher_id;
 	private String teacher_name;
-	private boolean is_master;
+	private int is_head;
 	private int b_time[];
 
 	public Teacher(int id, String name)
 	{
 		teacher_id = id;
 		teacher_name = name;
-		is_master = false;
+		is_head = 0;
 		b_time = null;
 	}
 
@@ -29,17 +29,17 @@ public class Teacher {
 		return is_master;
 	}
 
-	public int[] get_busy_time()
+	public int[] get_bt()
 	{
 		return b_time;
 	}
 
-	public void set_master(boolean flag)
+	public void set_head(int num)
 	{
-		is_master = flag;
+		is_head = num;
 	}
 
-	public void set_busy_time(int time[])
+	public void set_bt(int time[])
 	{
 		b_time = time;
 	}

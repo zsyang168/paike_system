@@ -2,15 +2,17 @@ package entity;
 
 public class Course {
 	private int course_id;
+	private int couese_no;
 	private String c_grade;
 	private String course_name;
 	private String short_name;
 	private int course_periods;
 	private int prepare_time[];
 
-	public Course()
+	public Course(int no)
 	{
 		course_id = 0;
+		course_no = i;
 		c_grade = null;
 		course_name = null;
 		short_name = null;
@@ -23,6 +25,11 @@ public class Course {
 		return course_id;
 	}
 	
+	public int get_no()
+	{
+		return course_no;
+	}
+
 	public String get_grade()
 	{
 		return c_grade;
